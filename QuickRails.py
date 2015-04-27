@@ -2,7 +2,7 @@ import sublime, sublime_plugin
 import re
 import os, sys
 import time
-import QuickExec
+from .QuickExec import QuickExecCommand
 
 rails_root_cache = {}
 
@@ -49,9 +49,9 @@ def command_with_ruby_env(cmd):
   rvm_cmd = os.path.expanduser('~/.rvm/bin/rvm-auto-ruby')
   rbenv_cmd = os.path.expanduser('~/.rbenv/bin/rbenv')
 
-  if s.get("check_for_rvm") and is_executable(rvm_cmd):
+  if s.get("check_for_rvm"):
     return rvm_cmd + ' -S ' + cmd
-  if s.get("check_for_rbenv") and is_executable(rbenv_cmd):
+  if s.get("check_for_rbenv"):
     return rbenv_cmd + ' exec ' + cmd
   else:
     return cmd
@@ -81,8 +81,9 @@ class QuickRailsWindowCommand(sublime_plugin.WindowCommand):
   # If there's no active view or the active view is not a file on the
   # filesystem (e.g. a search results view)
   def is_enabled(self):
-    if self._active_file_name() or len(self.window.folders()) == 1:
-      return rails_root(self.get_working_dir())
+    return True
+    # if self._active_file_name() or len(self.window.folders()) == 1:
+    #   return rails_root(self.get_working_dir())
 
   def run_quick_command(self, command, working_dir, listener):
     if not command:

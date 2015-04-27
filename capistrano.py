@@ -22,8 +22,8 @@ class QuickRailsCapistranoTasksCommand(QuickRailsWindowCommand, ProcessListener)
         pass
 
     def on_finished(self, proc, alldata):
-        print ":: on_finished"
-        print str(alldata)
+        print(":: on_finished")
+        print(str(alldata))
         if alldata:
             tasks = self.parse_capistrano_tasks(alldata)
             self.write_tasks_to_file(tasks)
@@ -54,7 +54,7 @@ class QuickRailsCapistranoTasksCommand(QuickRailsWindowCommand, ProcessListener)
             data = f.read()
             f.close()
             ctsk = [i.split(" ", 1) for i in data.split("\n")]
-            print ctsk
+            print(ctsk)
         except IOError:
             ctsk = []
         ctsk.insert(0, ["Update...", "Rebuild list of available capistrano tasks"])

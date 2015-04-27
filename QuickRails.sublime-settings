@@ -1,4 +1,6 @@
 {
     "check_for_rbenv": false,
-    "check_for_rvm": true
+    "check_for_rvm": true,
+    "generators": ["scaffold", "model", "controller", "migration"],
+    "rakes": ["db:migrate", "db:rollback"]
 }

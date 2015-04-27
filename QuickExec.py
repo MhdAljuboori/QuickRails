@@ -1,6 +1,9 @@
 import sublime, sublime_plugin
 import os, sys
-import thread
+try:
+  import thread
+except ImportError:
+  import _thread as thread #Py3K changed it.
 import subprocess
 import functools
 import time
@@ -126,7 +129,7 @@ class QuickExecCommand(sublime_plugin.WindowCommand, ProcessListener):
     self.encoding = encoding
 
     self.proc = None
-    print "Running " + " ".join(cmd)
+    print("Running " + " ".join(cmd))
     sublime.status_message("Building")
 
     merged_env = env.copy()
@@ -145,7 +148,7 @@ class QuickExecCommand(sublime_plugin.WindowCommand, ProcessListener):
       err_type = WindowsError
 
     if not listener:
-      print "Oh shit..."
+      print("Oh shit...")
       listener = self
 
     try:
@@ -155,10 +158,11 @@ class QuickExecCommand(sublime_plugin.WindowCommand, ProcessListener):
       pass
 
   def is_enabled(self, kill = False):
-    if kill:
-      return hasattr(self, 'proc') and self.proc and self.proc.poll()
-    else:
-      return True
+    return True
+    # if kill:
+    #   return hasattr(self, 'proc') and self.proc and self.proc.poll()
+    # else:
+    #   return True
 
   def finish(self, proc, alldata):
     if proc != self.proc:

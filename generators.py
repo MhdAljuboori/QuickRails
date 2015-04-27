@@ -2,20 +2,20 @@ import os
 import re
 
 import sublime
-from QuickRails import QuickRailsWindowCommand, get_idea
-from QuickExec import ProcessListener
+from .QuickRails import QuickRailsWindowCommand, get_idea
+from .QuickExec import ProcessListener
 #import add
 
-class QuickRailsGeneratorsCommand(QuickRailsWindowCommand, ProcessListener):
+class QuickRailsGenerators(QuickRailsWindowCommand, ProcessListener):
   def run(self):
     self.generators = self.get_available_generators()
     self.window.show_quick_panel(self.generators, self.on_selected)
 
   def on_selected(self, selected):
-    if selected == 0:
-      self.run_quick_command("rails g", self.window.folders()[0], self)
-    elif selected > 0:
-      self.generate(self.generators[selected])
+    # if selected == 0:
+    #   self.run_quick_command("rails g", self.window.folders()[0], self)
+    # elif selected > 0:
+    self.generate(self.generators[selected])
 
   def on_data(self, proc, data):
     pass
@@ -46,13 +46,5 @@ class QuickRailsGeneratorsCommand(QuickRailsWindowCommand, ProcessListener):
     f.close()
 
   def get_available_generators(self):
-    try:
-      f = open(os.path.join(get_idea(self.get_working_dir()), '.generators'), 'r')
-      data = f.read()
-      f.close()
-      gens = data.split()
-      gens.insert(0, "Update...")
-    except IOError:
-      gens = "".split()
-      gens.insert(0, "Update...")
-    return gens
+    s = sublime.load_settings("QuickRails.sublime-settings")
+    return s.get("generators")
