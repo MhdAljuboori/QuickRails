@@ -12,9 +12,6 @@ class QuickRailsRakeTasks(QuickRailsWindowCommand, ProcessListener):
     self.window.show_quick_panel(self.rakeTasks, self.on_selected)
 
   def on_selected(self, selected):
-    # if selected == 0:
-    #   self.run_quick_command("rake -sT", self.window.folders()[0], self)
-    # elif selected > 0:
     self.rake(self.rakeTasks[selected])
 
   def on_data(self, proc, data):
