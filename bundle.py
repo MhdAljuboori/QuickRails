@@ -2,10 +2,10 @@ import os
 import re
 
 import sublime
-from QuickRails import QuickRailsWindowCommand, rails_root
+from .QuickRails import QuickRailsWindowCommand, rails_root
 #import add
 
-class QuickRailsBundleInstallCommand(QuickRailsWindowCommand):
+class QuickRailsBundleInstall(QuickRailsWindowCommand):
   def run(self):
     self.run_bundle_install()
 
